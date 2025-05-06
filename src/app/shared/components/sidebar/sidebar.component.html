@@ -1,0 +1,26 @@
+<div class="sidebar-container">
+  <div class="sidebar-header">
+      <h2>Gestión de tareas</h2>
+  </div>
+  <nav class="sidebar-nav">
+      <div 
+          class="nav-item" 
+          [class.active]="activeSection === 'home'" 
+          (click)="setActiveSection('home')"
+          routerLink="/home/note-list">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-text">Home</span>
+      </div>
+      <div 
+          class="nav-item" 
+          [class.active]="activeSection === 'settings'" 
+          (click)="setActiveSection('settings')">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">Settings</span>
+      </div>
+  </nav>
+  <div class="user-profile">
+      <div class="profile-avatar"></div>
+      <span class="profile-name">User Profile</span>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="header">
+        <h1>Gestión de tareas</h1>
+    </div>
+    <div class="filter-section">
+        <div class="filter-row">
+            <input type="text" 
+                   [(ngModel)]="titleFilter" 
+                   (input)="filterTasks()"
+                   placeholder="Filtrar por título..."
+                   class="title-filter">
+            
+            <select [(ngModel)]="filterArchived" 
+                    (change)="filterTasks()" 
+                    class="filter-select">
+                <option [ngValue]="undefined">Todos los estados</option>
+                <option [value]="'TO_DO'">Por hacer</option>
+                <option [value]="'IN_PROGRESS'">En progreso</option>
+                <option [value]="'FINISHED'">Completada</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div class="task-list">
+            @for (task of filteredTasks; track task.id) {
+                <div class="task-card" 
+                     [class.todo]="task.state === 'TO_DO'" 
+                     [class.in-progress]="task.state === 'IN_PROGRESS'"
+                     [class.finished]="task.state === 'FINISHED'"
+                     [class.editing]="task.editing">
+                    
+                    <!-- El resto del contenido de la tarjeta permanece igual -->
+                    <div class="task-header">
+                        @if (!task.editing) {
+                            <h3 class="task-title">{{task.title}}</h3>
+                        } @else {
+                            <input type="text" [(ngModel)]="task.title" class="edit-input">
+                        }
+                        <button class="edit-btn" (click)="toggleEdit(task)">
+                            @if (task.editing) {
+                                <span>💾</span>
+                            } @else {
+                                <span>✏️</span>
+                            }
+                        </button>
+                    </div>
+                    
+                    @if (!task.editing) {
+                        <p class="task-description">{{task.description}}</p>
+                    } @else {
+                        <textarea [(ngModel)]="task.description" class="edit-textarea"></textarea>
+                    }
+                    
+                    <div class="task-footer">
+                        @if (!task.editing) {
+                            <span class="task-date">{{task.dueDate | date}}</span>
+                        } @else {
+                            <input type="date" [(ngModel)]="task.dueDate" class="edit-date">
+                        }
+                        
+                        @if (!task.editing) {
+                            <span class="task-status">{{getStatusText(task.state)}}</span>
+                        } @else {
+                            <select [(ngModel)]="task.state" class="edit-status">
+                                <option value="TO_DO">Por hacer</option>
+                                <option value="IN_PROGRESS">En progreso</option>
+                                <option value="FINISHED">Completada</option>
+                            </select>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
